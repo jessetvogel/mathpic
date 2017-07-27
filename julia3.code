@@ -1,0 +1,44 @@
+complex constant (0.285, 0.01);
+
+#include "palette.h"
+
+rgb color(complex c)
+{
+	c = complex(1, 0) / c / c / c;
+	int it, maxIt = 256;
+	double dis;
+	for(it = 0;it < maxIt;it ++)
+	{
+	   c = c * c + constant;
+	   dis = c.a * c.a + c.b * c.b;
+	   if(dis > 256) break;   
+	}
+
+	if(it < maxIt)
+	{
+		double zn = sqrt(c.a*c.a+c.b*c.b);
+		double nu = log( log(zn) / log(2) ) / log(2);
+
+		double k = it + 1 - nu;
+		if(k <= 0)
+		{
+			rgb color1 = palette[0];
+	  		return rgb(color1.r, color1.g, color1.b);
+		}
+
+		k /= 4;
+		double f = k - floor(k);
+
+		rgb color1 = palette[((int) k) % palette_size];
+		rgb color2 = palette[((int) k + 1) % palette_size];
+
+		int r = color2.r * f + color1.r * (1 - f);
+		int g = color2.g * f + color1.g * (1 - f);
+		int b = color2.b * f + color1.b * (1 - f);
+		return rgb(r, g, b);
+	}
+	else
+	{
+		return rgb(0, 0, 0);
+	}
+}

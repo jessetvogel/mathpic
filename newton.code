@@ -1,0 +1,42 @@
+rgb color(complex c)
+{
+	double angle;
+	int k, r, g, b;
+	for(k = 0;k < 200;k ++)
+	{
+	// Iteration
+	c = c - (c*c*c*c*c - 1)/(c*c*c*c*5);
+
+	angle = round(atan2(c.b, c.a) / M_PI * 2.5) * .4 * M_PI;;
+
+	double xto = cos(angle);
+	double yto = sin(angle);
+	
+	double distance = (xto-c.a)*(xto-c.a)+(yto-c.b)*(yto-c.b);
+	if(distance < 0.00001) break;
+	
+	}
+	
+	int a = (int) ((angle / M_PI * 180) * .2) % 5;
+	
+	a += 5; // For negative numbers
+	
+	switch(a % 5)
+	{
+	        case 0: r = 255; g = 0; b = 0; break;
+	        case 1: r = 255; g = 255; b = 0; break;
+	        case 2: r = 0; g = 255; b = 0; break;
+	        case 3: r = 0; g = 255; b = 255; break;
+	        case 4: r = 0; g = 0; b = 255; break;
+	}
+	
+	for(int m = 0;m < k;m ++)
+	{
+	  r *= .9;
+	  g *= .9;
+	  b *= .9;
+	}
+
+	return rgb(r, g, b);
+
+}

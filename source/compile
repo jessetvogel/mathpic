@@ -1,0 +1,3 @@
+#!/bin/bash
+g++ mathpic.cpp -o mathpic
+
